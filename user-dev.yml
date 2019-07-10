@@ -1,0 +1,46 @@
+server:
+  servlet:
+    context-path: /api/user
+    
+person:
+  url: http://host.docker.internal:8200/api/person/v1/naturalperson
+#person:
+#  url: http://localhost:8100/api/person/v1/naturalperson
+  
+wallet:
+  context: /api/wallet
+  endpoint:
+    post: /wallets/
+    get-by-id: /wallets/{userId}
+    
+spring:
+  boot:    admin:      client:        url: http://192.168.1.254:8100
+  data:
+    mongodb:
+      host: 192.168.1.254
+      port: 27017
+      database: user
+      authentication-database: admin
+      username: admin
+      password: admin
+ 
+eureka:
+  client:
+    registryFetchIntervalSeconds: 5    serviceUrl:
+#      defaultZone: ${EUREKA_SERVER:http://172.31.10.95:8761/eureka}
+      defaultZone: ${EUREKA_SERVER:http://192.168.1.254:8761/eureka}
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    
+management:  endpoints:    web:      exposure:        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+      
+logging:
+  file: /var/java/logs/user.log
+  level:
+    org: 
+      springframework:
+        data:
+          mongodb: DEBUG
